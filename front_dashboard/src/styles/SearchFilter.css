@@ -1,0 +1,24 @@
+.search-container {
+  display: flex;
+  gap: 20px; /* 요소 사이 간격 */
+  padding: 10px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  width: 100%; /* 너비를 꽉 채워야 남는 공간이 생겨 버튼이 밀립니다 */
+  box-sizing: border-box; /* 패딩이 너비에 영향을 주지 않도록 추가 */
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.search-button {
+
+    margin-left: auto;
+    background-color: #333;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 10px;
+}
