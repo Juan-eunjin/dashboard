@@ -1,7 +1,5 @@
 /**
  * 메인 대시보드 페이지
- * 
- * 
  */
 
 import '../styles/MaindashBoard.css';
@@ -26,10 +24,17 @@ const MaindashBoard = () => {
         done: 0
     });
 
+    const [ganttData, setGanttData] = useState([
+      { "date": "2026-02-01", "count": 5 },
+      { "date": "2026-02-02", "count": 7 },
+      { "date": "2026-02-03", "count": 8 },
+      { "date": "2026-02-04", "count": 3 }
+    ]);
+
     //조회 버튼 클릭 시 
     const handleSearch = (params: any) => {
-        console.log("조회 조건:", params);
-        setSearchParams(params);
+      setSearchParams(params);
+      console.log("조회 조건:", params);
     }
 
 
@@ -67,12 +72,7 @@ const MaindashBoard = () => {
       
       {/* 하단 간트 차트 영역 */}
       <section className="gant-section">
-        { <IssueChart issueData={[
-          { "date": "2026-02-01", "count": 5 },
-          { "date": "2026-02-02", "count": 7 },
-          { "date": "2026-02-03", "count": 8 },
-          { "date": "2026-02-04", "count": 3 }
-        ]} /> }
+        { <IssueChart issueData={ganttData} /> }
       </section>
 
     </div>
