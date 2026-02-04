@@ -9,6 +9,7 @@ import React, { useState } from 'react';
 import { SearchFilter } from '../components/SearchFilter'; 
 import { Piechart } from '../components/Piechart';       
 import '../styles/MaindashBoard.css';
+import { IssueChart } from '../components/GantChart';
 
 const MaindashBoard = () => {
     //검색 조건 관리
@@ -64,9 +65,14 @@ const MaindashBoard = () => {
         </div>
       </section>
       
-      {/* 하단 간트 차트 영역 (나중에 구현) */}
+      {/* 하단 간트 차트 영역 */}
       <section className="gant-section">
-        {/* <GantChart /> */}
+        { <IssueChart issueData={[
+          { "date": "2026-02-01", "count": 5 },
+          { "date": "2026-02-02", "count": 7 },
+          { "date": "2026-02-03", "count": 8 },
+          { "date": "2026-02-04", "count": 3 }
+        ]} /> }
       </section>
 
     </div>
