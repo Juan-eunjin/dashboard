@@ -42,7 +42,7 @@ export const FilterCheck: React.FC<FilterCheckProps> = ({
         }
         if (initialStatus) 
             setStatus(initialStatus);
-    }, [initialDate, initialStatus]);
+    }, [initialDate, initialStatus]); //value 값이 바뀔 때마다 실행
 
     return (
         <div className="check-container">

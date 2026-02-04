@@ -54,7 +54,6 @@ export const IssueChart: React.FC<{ issueData: IssueData[] }> = ({ issueData }) 
         console.log(`클릭된 날짜: ${selectedDate}, 개수: ${selectedCount}`);
 
         // 상세 페이지로 이동하며 데이터 전달
-        // state 객체에 담아 보내면 받는 쪽(Detail)에서 useLocation으로 꺼낼 수 있습니다.
         navigate('/detail', { 
           state: { 
             date: selectedDate, 

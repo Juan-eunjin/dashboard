@@ -27,9 +27,8 @@ const DetailPage: React.FC = () => {
   const [limit, setLimit] = useState<number>(10);
   const [issues, setIssues] = useState([]);
 
+  //테스트 데이터 생성
   useEffect(() => {
-  // 데이터를 50개로 늘려서 생성합니다. 
-  // 이렇게 하면 20개씩 봐도 3페이지까지 생겨서 테스트하기 좋습니다.
   const mockIssues = Array.from({ length: 50 }, (_, i) => ({
     id: `ISSUE-2026-${100 + i}`,
     title: `테스트용 이슈 항목입니다. #${i + 1}`,
