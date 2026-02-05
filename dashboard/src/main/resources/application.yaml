@@ -1,3 +1,24 @@
 spring:
   application:
     name: dashboard
+  # 이 부분이 spring 바로 아래, datasource와 같은 레벨에 있어야 합니다.
+  session:
+    store-type: none
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/dashboard?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: root
+    password: "0000"
+
+# mybatis는 spring 밖에 위치해야 합니다.
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  config-location: classpath:mybatis-config.xml
+
+server:
+  port: 8080
+
+jira:
+  api:
+    url: https://eunjintest.atlassian.net
+    token: ${JIRA_API_TOKEN}
