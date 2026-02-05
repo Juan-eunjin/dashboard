@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.dashboard.mapper.JiraMapper">
+
+    <insert id="insert" parameterType="com.example.dashboard.domain.JiraIssue">
+        INSERT INTO issuetable (issuekey, projectname, title, status, assingee, issuedate, duedate)
+        VALUES (#{issueKey}, #{projectName}, #{title}, #{status}, #{assignee}, #{issueDate},
+                #{dueDate}) ON DUPLICATE KEY
+        UPDATE
+            projectname =
+        VALUES (projectname), title =
+        VALUES (title), status =
+        VALUES (status), assingee =
+        VALUES (assingee), issuedate =
+        VALUES (issuedate), duedate =
+        VALUES (duedate)
+    </insert>
+
+</mapper>
