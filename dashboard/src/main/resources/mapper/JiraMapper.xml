@@ -5,12 +5,12 @@
 <mapper namespace="com.example.dashboard.mapper.JiraMapper">
 
     <insert id="insert" parameterType="com.example.dashboard.domain.JiraIssue">
-        INSERT INTO issuetable (issuekey, projectname, title, status, assingee, issuedate, duedate)
-        VALUES (#{issueKey}, #{projectName}, #{title}, #{status}, #{assignee}, #{issueDate},
+        INSERT INTO issuetable (issuekey, labels, title, status, assingee, issuedate, duedate)
+        VALUES (#{issueKey}, #{labels}, #{title}, #{status}, #{assignee}, #{issueDate},
                 #{dueDate}) ON DUPLICATE KEY
         UPDATE
-            projectname =
-        VALUES (projectname), title =
+            labels =
+        VALUES (labels), title =
         VALUES (title), status =
         VALUES (status), assingee =
         VALUES (assingee), issuedate =
