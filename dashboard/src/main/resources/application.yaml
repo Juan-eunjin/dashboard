@@ -1,24 +1,29 @@
 spring:
   application:
     name: dashboard
-  # 이 부분이 spring 바로 아래, datasource와 같은 레벨에 있어야 합니다.
-  session:
-    store-type: none
+
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/dashboard?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    # 주소(url) 뒤에 /뒤에는 본인의 실제 DB 이름을 적으세요.
+    url: jdbc:mysql://localhost:3306/dashboard?serverTimezone=Asia/Seoul
     username: root
     password: "0000"
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
-# mybatis는 spring 밖에 위치해야 합니다.
+  session:
+    store-type: jdbc
+    jdbc:
+      initialize-schema: always
+
 mybatis:
   mapper-locations: classpath:mapper/*.xml
-  config-location: classpath:mybatis-config.xml
-
-server:
-  port: 8080
+  configuration:
+    map-underscore-to-camel-case: true
 
 jira:
   api:
-    url: https://eunjintest.atlassian.net
-    token: ${JIRA_API_TOKEN}
+    url: https://eunjintest.atlassian.net  # 여기에 Jira 주소 입력
+    email: eunjinshin97@gmail.com          # Jira 계정 이메일
+    token: ${JIRA_TOKEN}
+
+server:
+  port: 8080

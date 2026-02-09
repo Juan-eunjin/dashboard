@@ -6,7 +6,7 @@ import lombok.*;
 @Getter
 public class JiraIssue {
     private String issueKey;
-    private String projectName;
+    private String labels;
     private String title;
     private String status;
     private String assignee;
