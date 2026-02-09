@@ -1,0 +1,62 @@
+/* 페이지네이션 전체 컨테이너 */
+.pagenation-container {
+    display: flex;
+    justify-content: center; /* 중앙 정렬 */
+    align-items: center;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+/* 페이지 번호 리스트 */
+.pagination-list {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 8px; /* 버튼 사이 간격 */
+}
+
+/* 각 페이지 번호 및 화살표 아이템 */
+.pagination-list li {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+    transition: all 0.2s ease-in-out;
+    user-select: none; /* 텍스트 드래그 방지 */
+}
+
+/* 마우스 호버 시 효과 */
+.pagination-list li:hover:not(.disabled):not(.active) {
+    background-color: #f0f0f0;
+    border-color: #bbb;
+}
+
+/* 활성화된 페이지 (현재 페이지) 스타일 */
+.pagination-list li.active {
+    background-color: #333; /* 검은색 계열로 강조 */
+    color: #fff;
+    border-color: #333;
+    font-weight: bold;
+}
+
+/* 비활성화된 버튼 (첫 페이지에서 이전 버튼 등) */
+.pagination-list li.disabled {
+    color: #ccc;
+    background-color: #fafafa;
+    border-color: #eee;
+    cursor: not-allowed;
+}
+
+/* 화살표 아이콘 크기 살짝 조정 */
+.pagination-list li:first-child,
+.pagination-list li:last-child,
+.pagination-list li:nth-child(2),

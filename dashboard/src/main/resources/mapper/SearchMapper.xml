@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dashboard.mapper.SearchMapper">
+    <select id="findIssues" resultType="com.example.dashboard.domain.JiraIssue">
+        SELECT
+        issuekey,
+        labels,
+        title,
+        status,
+        assingee,
+        issuedate,
+        duedate
+        FROM issuetable
+        WHERE issueDate BETWEEN #{startDate} AND #{endDate}
+        <if test="label != null and label != ''">
+            AND labels LIKE CONCAT('%', #{label}, '%')
+        </if>
+        ORDER BY issueDate DESC
+    </select>
+
+    <select id="findAllUniqueProject" resultType="String">
+        SELECT DISTINCT label
+        FROM issues
+        WHERE label IS NOT NULL
+        ORDER BY label ASC
+    </select>
+
+</mapper>
