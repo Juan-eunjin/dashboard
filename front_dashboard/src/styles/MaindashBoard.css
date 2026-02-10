@@ -1,29 +1,102 @@
-.dashboard {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
+/* 요약 컨테이너: 그림자와 라운딩으로 입체감 부여 */
 .summary-container {
-  display: flex; /* 요약 텍스트와 차트를 가로로 배치 */
-  border: 1px solid #ddd;
-  padding: 20px;
-  background-color: #fff;
+    display: flex;
+    gap: 30px;
+    padding: 25px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    border: 1.5px solid #cbd5e0; /* 검색창과 통일감 유지 */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
+/* 왼쪽 텍스트 영역: 카드 그리드 레이아웃 */
 .summary-text {
-  flex: 1; /* 왼쪽 50% 차지 */
-  border-right: 1px solid #eee;
-  padding-right: 20px;
+    flex: 1.2; /* 차트보다 조금 더 넓게 배치 */
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
+.summary-text h3 {
+    margin: 0 0 10px 0;
+    font-size: 18px;
+    color: #2d3748;
+    border-left: 4px solid #0052cc; /* 지라 블루 포인트 */
+    padding-left: 12px;
+}
+
+/* 리스트를 카드 그리드로 변경 */
+.summary-text ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2열 배치 */
+    gap: 12px;
+}
+
+.summary-text li {
+    padding: 15px;
+    background-color: #f8fafc;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    font-size: 14px;
+    color: #4a5568;
+    transition: transform 0.2s ease;
+}
+
+.summary-text li:hover {
+    transform: translateY(-3px);
+    border-color: #cbd5e0;
+}
+
+/* 수치 강조 스타일 */
+.summary-text li strong {
+    font-size: 20px;
+    display: block;
+    color: #1a202c;
+}
+
+/* 오른쪽 차트 영역 */
 .summary-chart {
-  flex: 1; /* 오른쪽 50% 차지 */
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    flex: 0.8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 20px;
+    border-left: 1px solid #edf2f7;
 }
 
-/* 설계서 색상 반영 */
-.status-progress { color: #00C49F; font-weight: bold; }
-.status-overdue { color: #FF0000; font-weight: bold; }
+/* 상태별 포인트 컬러 (기존 색상 유지 및 최적화) */
+.status-total { border-top: 3px solid #718096; }
+.status-open { border-top: 3px solid #4a5568; }
+.status-progress { border-top: 3px solid #00C49F; color: #00C49F !important; }
+.status-overdue { border-top: 3px solid #FF0000; color: #FF0000 !important; }
+.status-done { border-top: 3px solid #0052cc; }
+
+/* 수치(숫자) 부분만 초강조! */
+.summary-text li strong {
+    font-size: 28px;       /* 숫자를 20px에서 28px로 대폭 확대 */
+    font-weight: 900;      /* 가장 굵은 두께 적용으로 시인성 극대화 */
+    color: #1a202c;        /* 숫자가 더 잘 보이도록 진한 검은색 유지 */
+    display: block;
+    margin-top: 5px;       /* 라벨과 숫자 사이 적절한 간격 부여 */
+    letter-spacing: -1px;  /* 숫자가 너무 퍼져 보이지 않게 자간 조정 */
+}
+
+/* 상태별 수치 컬러 포인트 (진행 중, 지연 등 컬러 적용) */
+.status-progress strong {
+    color: #00C49F !important; /* 진행 중 수치는 초록색으로 초강조 */
+}
+
+.status-overdue strong {
+    color: #FF0000 !important; /* 지연 수치는 빨간색으로 초강조 */
+}
+
+/* 라벨(항목명)은 가독성을 위해 적당한 두께 유지 */
+.summary-text li {
+    font-weight: 600;      /* 항목명도 텍스트가 깨지지 않을 정도로 굵게 */
+    color: #4a5568;
+}

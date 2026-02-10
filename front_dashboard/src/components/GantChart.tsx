@@ -37,13 +37,14 @@ interface IssueData {
   count: number;
 }
 
-export const IssueChart: React.FC<{ issueData: IssueData[] }> = ({ issueData }) => {
+export const IssueChart: React.FC<{ issueData: IssueData[], project: string }> = ({ issueData, project }) => {
 
     const navigate = useNavigate();
 
     //차트의 제목, 눈금 범위, 범례 표시 여부 등 '디자인과 기능' 설정
     const options = {
         responsive: true,
+        maintainAspectRatio: false, // 🚩 핵심: 비율 유지 해제 (부모 높이에 맞춤)
         onClick: (event: any, elements: any[]) => {
         // 차트의 데이터 포인트(점)를 클릭했을 때만 동작
         if (elements.length > 0) {
@@ -51,15 +52,14 @@ export const IssueChart: React.FC<{ issueData: IssueData[] }> = ({ issueData }) 
             const selectedDate = issueData[index].date; 
             const selectedCount = issueData[index].count;
 
-        console.log(`클릭된 날짜: ${selectedDate}, 개수: ${selectedCount}`);
-
         // 상세 페이지로 이동하며 데이터 전달
         navigate('/detail', { 
-          state: { 
-            date: selectedDate, 
-            count: selectedCount,
-            from: 'gantt'
-          } 
+                  state: { 
+                    date: selectedDate, 
+                    count: selectedCount,
+                    project: project, // props로 받은 project 사용
+                    from: 'gantt'
+                }
         });
       }
     },
@@ -86,5 +86,9 @@ export const IssueChart: React.FC<{ issueData: IssueData[] }> = ({ issueData }) 
     ],
   };
 
-  return <Line options={options} data={data} />;
+  return (
+        <div style={{ width: '100%', height: '400px', minHeight: '300px' }}>
+            <Line options={options} data={data} />
+        </div>
+    );
 };
