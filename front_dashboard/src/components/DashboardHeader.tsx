@@ -1,22 +1,16 @@
-/**
- * DashboardHeader Component
- * 
- * 상단에 타이틀.
- */
-
 import React from 'react';
 import '../styles/DashboardHeader.css';
+import { useNavigate } from 'react-router-dom'; // 1. useNavigate 임포트
 
-// TypeScript 인터페이스 정의
 interface DashboardHeaderProps {
   title: string;
 }
 
-export const DashboardHeader: React.FC<DashboardHeaderProps> = ({ 
-  title
-}) => {
+export const DashboardHeader: React.FC<DashboardHeaderProps> = ({ title }) => {
+  const navigate = useNavigate(); // 2. 네비게이트 함수 선언
+
   return (
-    <header className="dashboard-header">
+    <header className="dashboard-header" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
       <h1 className="dashboard-title">{title}</h1>
     </header>
   );

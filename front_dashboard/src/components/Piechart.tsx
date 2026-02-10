@@ -19,20 +19,20 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 //가져온 데이터 인터페이스
 interface PiechartProps {
   inProgress: number;
-  overdue: number;
+  open: number;
   done: number;
 }
-export const Piechart: React.FC<PiechartProps> = ({ inProgress, overdue, done }) => {
-    const total = inProgress + overdue + done;
+export const Piechart: React.FC<PiechartProps> = ({ inProgress, open, done }) => {
+    const total = inProgress + open + done;
     if (total === 0) {
     return <div className="piechart-empty">표시할 데이터가 없습니다.</div>;
   } 
   const data: ChartData<'pie'> = {
-    labels: ['In Progress', 'Overdue', 'Done'],
+    labels: ['In Progress', 'open', 'Done'],
     datasets: [
       {
-        data: [inProgress, overdue, done],
-        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
+        data: [inProgress, open, done],
+        backgroundColor: ['#80fc8a', '#b4eaee', '#616161'],
         borderWidth: 1,
       },
     ],
