@@ -1,7 +1,8 @@
-# [JIRA DASHBOARD]
 
 ## 💡 프로젝트 소개
-Jira에서 이슈를 가져와서 시각화
+Jira에서 이슈를 가져와서 시각화하는 페이지
+
+
 
 ## 🛠 기술 스택
 - [Backend] Java 21, Spring Boot 3.4.2, MyBatis
