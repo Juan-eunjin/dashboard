@@ -7,6 +7,7 @@ import lombok.Setter;
 @Setter
 public class IssueSummaryDto {
     private int totalIssues;
+    private int open;
     private int inProgress;
     private int overdue;
     private int done;
