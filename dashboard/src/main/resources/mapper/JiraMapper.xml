@@ -22,14 +22,23 @@
     <select id="getIssueSummary" resultType="com.example.dashboard.dto.IssueSummaryDto">
         SELECT
         COUNT(*) AS totalIssues,
+        /* 1. 진행 중 상태 집계 */
         SUM(CASE WHEN status IN ('In Progress', '진행 중') THEN 1 ELSE 0 END) AS inProgress,
+
+        /* 2. 완료 상태 집계 */
         SUM(CASE WHEN status IN ('Done', '완료') THEN 1 ELSE 0 END) AS done,
+
+        /* 3. 진행 전(Open) 상태 집계 */
+        SUM(CASE WHEN status IN ('Open', '할 일', 'To Do', '해야 할 일') THEN 1 ELSE 0 END) AS open,
+
+        /* 4. Overdue(지연): 완료되지 않았고 마감 기한이 오늘보다 이전인 경우 */
         SUM(CASE WHEN status NOT IN ('Done', '완료')
-        AND (duedate IS NOT NULL AND duedate &lt; CURDATE()) THEN 1 ELSE 0 END) AS overdue
+        AND duedate IS NOT NULL
+        AND duedate &lt; CURDATE() THEN 1 ELSE 0 END) AS overdue
         FROM issuetable
         <where>
             <if test="labels != null and labels != ''">
-                AND labels LIKE CONCAT('%', #{labels}, '%')
+                AND labels = #{labels}
             </if>
             <if test="startDate != null and startDate != ''">
                 AND issuedate &gt;= #{startDate}
@@ -75,11 +84,12 @@
     <select id="getIssuesList" resultType="com.example.dashboard.dto.IssueListResponse">
         SELECT
         issuekey,
-        title,
+        title AS summary,
         issuedate,
         assingee,
         status,
-        duedate
+        duedate,
+        labels
         FROM issuetable
         <where>
             <if test="labels != null and labels != ''">
