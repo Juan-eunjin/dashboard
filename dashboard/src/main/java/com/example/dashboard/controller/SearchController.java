@@ -19,7 +19,7 @@ public class SearchController {
     @Autowired
     private SearchService searchService;
 
-    // 검색 로직 구현
+    // 검색 로직 - 날짜
     @GetMapping("/search/issuesdate")
     public ResponseEntity<?> searchIssues(@RequestParam(required = false) String label,
                                           @RequestParam String startDate,
@@ -36,7 +36,8 @@ public class SearchController {
         return ResponseEntity.ok().body(searchService.getIssuesDates(label, startDate, endDate));
     }
 
-    @GetMapping("/search/project")
+    // 검색 로직 - 프로젝트명
+    @GetMapping("/search/projectname")
     public ResponseEntity<List<String>> getProjects() {
         return ResponseEntity.ok().body(searchService.getUniqueProject());
     }

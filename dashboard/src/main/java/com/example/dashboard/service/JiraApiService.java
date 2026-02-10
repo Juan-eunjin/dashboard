@@ -12,6 +12,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
+//restClient기반 코드
 @Service
 public class JiraApiService {
 
