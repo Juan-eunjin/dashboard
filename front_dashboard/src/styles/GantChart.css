@@ -1,0 +1,19 @@
+/* src/styles/IssueChart.css */
+
+.chart-card-container {
+    width: 100%;
+    height: 450px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #e1e4e8;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    margin-top: 20px;
+    box-sizing: border-box; /* 패딩이 높이/너비에 포함되도록 설정 */
+}
+
+/* 차트 내부 캔버스가 부모 크기에 꽉 차도록 설정 */
+.chart-card-container canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
