@@ -2,6 +2,7 @@
 .check-container {
     display: flex;
     align-items: center;
+    justify-content: flex-start; /* 왼쪽 정렬 */
     gap: 30px;
     padding: 20px;
     background-color: #ffffff;
@@ -9,8 +10,8 @@
     font-family: 'Malgun Gothic', sans-serif;
 }
 
-/* 그룹별 레이아웃 (기간, 상태) */
-.date-group, .status-group {
+/* 그룹별 레이아웃 (프로젝트, 기간, 상태) */
+.filter-group, .date-group, .status-group {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -24,8 +25,9 @@
     white-space: nowrap;
 }
 
-/* 공통 입력창 스타일 */
-.check-container input {
+/* [통일] 입력창 및 셀렉트 박스 공통 스타일 */
+.check-container input, 
+.check-container select {
     padding: 8px 12px;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -33,6 +35,20 @@
     color: #555;
     background-color: #fff;
     transition: all 0.2s ease;
+    height: 38px; /* 높이 통일 */
+    box-sizing: border-box;
+}
+
+/* 마우스 호버 시 효과 */
+.check-container input:hover, 
+.check-container select:hover {
+    border-color: #007bff;
+}
+
+/* 셀렉트 박스 전용 스타일 (너비 조절) */
+.check-container select {
+    min-width: 140px;
+    cursor: pointer;
 }
 
 /* 기간 사이 물결(~) 기호 */
@@ -41,24 +57,24 @@
     font-weight: bold;
 }
 
-/* [핵심] 블락(ReadOnly) 처리 스타일 */
-.check-container input[readOnly] {
-    background-color: #f5f5f5; /* 연한 회색 배경 */
-    color: #888;               /* 글자색 연하게 */
-    cursor: not-allowed;       /* 금지 아이콘 커서 */
-    border: 1px solid #ddd;
-    box-shadow: none;
+/* 조회 버튼 스타일 */
+.search-button {
+    padding: 8px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    height: 38px;
+    transition: background-color 0.2s;
 }
 
-/* 포커스 방지 */
-.check-container input[readOnly]:focus {
-    outline: none;
-    border-color: #ddd;
+.search-button:hover {
+    background-color: #0056b3;
 }
 
-/* 이슈 상태 입력창 너비 조절 */
-.status-group input {
-    width: 150px;
-    text-align: center;
-    font-weight: 600;
+.search-button.blocked {
+    background-color: #ccc;
+    cursor: not-allowed;
 }

@@ -1,17 +1,38 @@
 import React from 'react';
 import '../styles/DashboardHeader.css';
-import { useNavigate } from 'react-router-dom'; // 1. useNavigate 임포트
+import { useNavigate, useLocation } from 'react-router-dom';
+import { HEADER_TITLE } from '../constants/labels';
+import { TITLE } from '../constants/defaultValue';
+interface DashboardHeaderProps { }
 
-interface DashboardHeaderProps {
-  title: string;
-}
-
-export const DashboardHeader: React.FC<DashboardHeaderProps> = ({ title }) => {
-  const navigate = useNavigate(); // 2. 네비게이트 함수 선언
+export const DashboardHeader: React.FC<DashboardHeaderProps> = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
 
   return (
-    <header className="dashboard-header" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
-      <h1 className="dashboard-title">{title}</h1>
+    <header className="dashboard-header">
+      <div className="header-left"
+        onClick={() => navigate('/')}
+        style={{ cursor: 'pointer' }}>
+        <h1 className="dashboard-title">
+          {TITLE.MAIN}
+        </h1>
+      </div>
+
+      <nav className="dashboard-actions">
+        <span
+          className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}
+          onClick={() => navigate('/')}
+        >
+          {HEADER_TITLE.DASHBOARD}
+        </span>
+        <span
+          className={`nav-link ${location.pathname === '/detail' ? 'active' : ''}`}
+          onClick={() => navigate('/detail')}
+        >
+          {HEADER_TITLE.DETAIL_PAGE}
+        </span>
+      </nav>
     </header>
   );
 };

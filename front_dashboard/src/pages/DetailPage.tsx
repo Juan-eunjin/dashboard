@@ -1,17 +1,21 @@
 import '../styles/DetailPage.css';
 import { useLocation } from 'react-router-dom';
-import { FilterCheck } from '../components/FilterCheck';
+import { DetailPageSearch } from '../components/detailPageSearch';
 import { ListButton } from '../components/ListButton';
 import { DetailTable } from '../components/DetailTable';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { PagenationComponent } from '../components/PagenationComponent';
-import axios from 'axios'; // axios 추가
+import { handleSearchApi, type SearchAllParams } from '../api/handleSearchApi';
+import { DETAIL_DEFAULT_VALUES } from '../constants/defaultValue';
+import { DETAIL_FILTER_OPTION, DETAIL_RESULT_LABELS, NAV_SOURCE } from '../constants/labels';
+import { useForm } from '../hooks/useForm';
 
 interface NavigationState {
+  labels: string;
   date: string;
   count: number;
-  from: string; // 'pie' 또는 'gantt'
-  status?: string; // 대시보드에서 넘어온 클릭된 상태값
+  from: string;
+  status?: string;
 }
 
 const DetailPage: React.FC = () => {
@@ -19,71 +23,80 @@ const DetailPage: React.FC = () => {
   const state = location.state as NavigationState | null;
 
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [limit, setLimit] = useState<number>(10); // 기본 10개
-  const [issues, setIssues] = useState([]);
+  const [limit, setLimit] = useState<number>(10);
+  const [issues, setIssues] = useState<any[]>([]);
+  const [totalCount, setTotalCount] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
 
-  // 1. 데이터 가져오는 함수: 파라미터에 limit과 page 추가
-  const fetchIssues = async (filters: any) => {
-    setLoading(true);
-    const currentProject = filters.labels || state?.project || ''; 
-    const currentDate = filters.date || state?.date;
 
+  const { values: filters, setValues: setFilters } = useForm({
+    labels: state?.labels || DETAIL_DEFAULT_VALUES.PROJECT,
+    status: state?.status || (state?.from === NAV_SOURCE.GANTT ? DETAIL_FILTER_OPTION.ALL : DETAIL_DEFAULT_VALUES.STATUS),
+    startDate: state?.date || '',
+    endDate: state?.date || ''
+  });
+
+  const fetchIssues = useCallback(async (filters: any) => {
+    if (!filters.startDate || !filters.endDate) return;
+    setLoading(true);
     try {
-      const response = await axios.get('/api/issues-list', {
-        params: {
-          labels: currentProject,
-          startDate: currentDate,
-          endDate: currentDate,
-          status: filters.status || state?.status,
-          // 백엔드 컨트롤러의 @RequestParam 이름과 맞춰줍니다.
-          page: currentPage, 
-          limit: limit 
-        }
-      });
-      setIssues(response.data);
-    } catch (error) {
-      console.error("상세 리스트 조회 실패:", error);
+      const apiParams: SearchAllParams = {
+        labels: filters.labels,
+        startDate: filters.startDate,
+        endDate: filters.endDate,
+        status: filters.status,
+        page: currentPage,
+        limit: limit
+      };
+
+      const response = await handleSearchApi(apiParams);
+
+      if (Array.isArray(response)) {
+        setIssues(response);
+        setTotalCount(response.length);
+      } else {
+        setIssues(response.issues || []);
+        setTotalCount(response.totalCount || 0);
+      }
     } finally {
       setLoading(false);
     }
-  };
+  }, [currentPage, limit]);
 
-  // 2. 의존성 배열을 활용해 상태가 바뀔 때마다 자동 호출 (중복 useEffect 삭제)
   useEffect(() => {
-    if (state) {
-      fetchIssues({ date: state.date, status: state.status });
-    }
-  }, [state, currentPage, limit]); // 페이지 번호나 보기 개수가 바뀌면 재호출
+    fetchIssues(filters);
+  }, [fetchIssues, filters]);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
 
-  const handleFilterChange = (filters: any) => {
-    setCurrentPage(1); // 필터 변경 시 1페이지로 초기화
-    fetchIssues(filters);
+  const handleFilterChange = (newFilters: any) => {
+    setFilters(newFilters);
+    setCurrentPage(1);
   };
 
   return (
     <div className="detail-container">
-      <FilterCheck 
-        initialDate={state?.date || ''} 
-        initialStatus={state?.status || (state?.from === 'gantt' ? '전체' : '')}
+      <DetailPageSearch
+        initialLabels={filters.labels}
+        initialDate={filters.startDate}
+        initialStatus={filters.status}
         onFilterChange={handleFilterChange}
       />
-      
+
       <div className="content">
         {loading ? (
-          <p>데이터를 불러오는 중입니다...</p>
+          <p>{DETAIL_RESULT_LABELS.LODING_DATA}</p>
         ) : (
-          /* 전체 데이터 개수는 별도의 Count API가 없다면 현재 리스트의 길이로 표시 */
-          <p>총 <strong>{state?.count || issues.length}</strong>건의 이슈가 조회되었습니다.</p>
+          <p>
+            <strong>{totalCount}</strong>
+            {DETAIL_RESULT_LABELS.RESULT_ISSUES}
+          </p>
         )}
       </div>
 
       <div className="table-button-container">
-        {/* '20개씩 보기'를 누르면 limit이 바뀌며 useEffect가 실행됩니다. */}
         <ListButton onLimitChange={(newLimit) => {
           setLimit(newLimit);
           setCurrentPage(1);
@@ -91,14 +104,13 @@ const DetailPage: React.FC = () => {
       </div>
 
       <div className="table-container">
-        <DetailTable 
-          issues={issues} // 서버에서 페이징된 데이터를 주므로 slice 불필요
-          limit={limit} 
+        <DetailTable
+          issues={issues}
+          limit={limit}
           currentPage={currentPage}
         />
         <PagenationComponent
-          /* 주의: 전체 개수를 알기 위해서는 백엔드에서 Total Count를 같이 보내줘야 정확합니다. */
-          totalItems={state?.count || issues.length} 
+          totalItems={totalCount}
           itemsPerPage={limit}
           currentPage={currentPage}
           onPageChange={handlePageChange}
