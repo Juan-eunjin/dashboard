@@ -2,8 +2,11 @@ package com.example.dashboard.domain;
 
 import lombok.*;
 
-@Setter
 @Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class JiraIssue {
     private String issueKey;
     private String labels;

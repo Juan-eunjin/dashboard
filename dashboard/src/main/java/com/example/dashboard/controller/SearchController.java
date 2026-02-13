@@ -1,44 +1,45 @@
 package com.example.dashboard.controller;
 
-import com.example.dashboard.repository.SearchService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.dashboard.service.SearchService;
+import com.example.dashboard.dto.SearchResultResponse;
+
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
-import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("/dashboard")
+@RequiredArgsConstructor
 public class SearchController {
 
-    @Autowired
-    private SearchService searchService;
+    private final SearchService searchService;
 
-    // 검색 로직 - 날짜
-    @GetMapping("/search/issuesdate")
-    public ResponseEntity<?> searchIssues(@RequestParam(required = false) String label,
-                                          @RequestParam String startDate,
-                                          @RequestParam String endDate) {
-        //날짜 차이 계산 - 최대 1달까지만 허용
-        LocalDate start = LocalDate.parse(startDate);
-        LocalDate end = LocalDate.parse(endDate);
+    /**
+     * 통합 검색
+     * 
+     * @param label
+     * @param startDate
+     * @param endDate
+     * @param status
+     * @param page
+     * @param limit
+     * @returns
+     */
+    @GetMapping("/search")
+    public ResponseEntity<SearchResultResponse> integratedSearch(
+            @RequestParam(required = false) String label,
+            @RequestParam(required = false) String startDate,
+            @RequestParam(required = false) String endDate,
+            @RequestParam(required = false) String status,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int limit) {
 
-        //31일 초과시 에러 반환
-        if (ChronoUnit.DAYS.between(start, end) > 31) {
-            return ResponseEntity.badRequest().body("날짜 범위는 최대 31일 이내로 설정해야 합니다.");
-        }
-
-        return ResponseEntity.ok().body(searchService.getIssuesDates(label, startDate, endDate));
-    }
-
-    // 검색 로직 - 프로젝트명
-    @GetMapping("/search/projectname")
-    public ResponseEntity<List<String>> getProjects() {
-        return ResponseEntity.ok().body(searchService.getUniqueProject());
+        return ResponseEntity.ok(searchService.getIntegratedSearch(label, startDate, endDate, status, page, limit));
     }
 }
