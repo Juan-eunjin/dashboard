@@ -28,6 +28,13 @@ interface IssueData {
   date: string;
   count: number;
 }
+/**
+ * 간트 차트 컴포넌트
+ * 
+ * @param issueData 이슈 데이터
+ * @param project 프로젝트명
+ * @returns 간트 차트 컴포넌트
+ */
 
 export const GantChart: React.FC<{ issueData: IssueData[], project: string }> = ({ issueData, project }) => {
 

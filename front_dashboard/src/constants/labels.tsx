@@ -59,5 +59,6 @@ export const TABLE_LABELS = {
 
 export const HEADER_TITLE = {
     DASHBOARD: "대시보드",
-    DETAIL_PAGE: "상세 페이지"
+    DETAIL_PAGE: "상세 페이지",
+    SUMMARY: "Issue Summary"
 };

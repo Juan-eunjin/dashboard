@@ -31,6 +31,11 @@ export const handleSearchApi = async (params: SearchAllParams) => {
 };
 
 export const fetchProjectList = async () => {
-    const response = await client.get('/projectslist');
-    return response.data;
+    try {
+        const response = await client.get('/projectslist');
+        return response.data;
+    } catch (error) {
+        console.error(ERROR_MESSAGES.PROJECT_LOAD_FAIL, error);
+        throw error;
+    }
 };
