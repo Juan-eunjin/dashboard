@@ -21,7 +21,6 @@ logging:
     # 쿼리 결과를 테이블 형태로 보고 싶을 때
     jdbc.resultsettable: info
 
-    # 아래는 너무 양이 많아서 보통 off하거나 error만 봅니다.
     jdbc.sqlonly: off
     jdbc.audit: off
     jdbc.resultset: off
@@ -34,9 +33,6 @@ mybatis:
 
 jira:
   api:
-    url: https://eunjintest.atlassian.net  # 여기에 Jira 주소 입력
-    email: eunjinshin97@gmail.com          # Jira 계정 이메일
-    token: #${JIRA_TOKEN}
-    #${JIRA_TOKEN}
+    token: ${JIRA_TOKEN}
 server:
   port: 8080

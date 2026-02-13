@@ -9,13 +9,25 @@ import java.util.List;
 @Mapper
 public interface SearchMapper {
 
-    // XML의 <select id="findIssues">와 메서드 이름이 같아야 함
-    List<JiraIssue> findIssues(
-            @Param("startDate") String startDate,
-            @Param("endDate") String endDate,
-            @Param("label") String label
-    );
+        List<JiraIssue> findIssues(
+                        @Param("startDate") String startDate,
+                        @Param("endDate") String endDate,
+                        @Param("label") String label,
+                        @Param("status") String status);
 
-    // XML의 <select id="findUniqueProjects">와 연결
-    List<String> findUniqueProjects();
+        List<String> findUniqueProjects();
+
+        List<JiraIssue> findDetailedIssues(
+                        @Param("label") String label,
+                        @Param("startDate") String startDate,
+                        @Param("endDate") String endDate,
+                        @Param("status") String status,
+                        @Param("offset") int offset,
+                        @Param("limit") int limit);
+
+        int countDetailedIssues(
+                        @Param("label") String label,
+                        @Param("startDate") String startDate,
+                        @Param("endDate") String endDate,
+                        @Param("status") String status);
 }

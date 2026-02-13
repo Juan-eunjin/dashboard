@@ -2,28 +2,55 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.dashboard.mapper.SearchMapper">
+
     <select id="findIssues" resultType="com.example.dashboard.domain.JiraIssue">
         SELECT
-        issuekey,
-        labels,
-        title,
-        status,
-        assingee,
-        issuedate,
-        duedate
+        issuekey, labels, title, status,
+        assingee, issuedate, duedate
         FROM issuetable
-        WHERE issueDate BETWEEN #{startDate} AND #{endDate}
+        WHERE issuedate BETWEEN #{startDate} AND #{endDate}
         <if test="label != null and label != ''">
             AND labels LIKE CONCAT('%', #{label}, '%')
         </if>
-        ORDER BY issueDate DESC
+        <if test="status != null and status != '' and status != 'All' and status != '전체'">
+            AND status = #{status}
+        </if>
+        ORDER BY issuedate DESC
     </select>
 
-    <select id="findAllUniqueProject" resultType="String">
-        SELECT DISTINCT label
-        FROM issues
-        WHERE label IS NOT NULL
-        ORDER BY label ASC
+    <select id="findUniqueProjects" resultType="String">
+        SELECT DISTINCT labels
+        FROM issuetable
+        WHERE labels IS NOT NULL
+        ORDER BY labels ASC
+    </select>
+
+    <select id="findDetailedIssues" resultType="com.example.dashboard.domain.JiraIssue">
+        SELECT
+        issuekey, labels, title, status,
+        assingee, issuedate, duedate
+        FROM issuetable
+        WHERE issuedate BETWEEN #{startDate} AND #{endDate}
+        <if test="label != null and label != ''">
+            AND labels LIKE CONCAT('%', #{label}, '%')
+        </if>
+        <if test="status != null and status != '' and status != 'All' and status != '전체'">
+            AND status = #{status}
+        </if>
+        ORDER BY issuedate DESC
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <select id="countDetailedIssues" resultType="int">
+        SELECT COUNT(*)
+        FROM issuetable
+        WHERE issuedate BETWEEN #{startDate} AND #{endDate}
+        <if test="label != null and label != ''">
+            AND labels LIKE CONCAT('%', #{label}, '%')
+        </if>
+        <if test="status != null and status != '' and status != 'All' and status != '전체'">
+            AND status = #{status}
+        </if>
     </select>
 
 </mapper>

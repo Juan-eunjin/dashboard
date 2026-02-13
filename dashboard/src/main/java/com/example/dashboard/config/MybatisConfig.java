@@ -6,11 +6,14 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.Resource; // 중요: jakarta.annotation.Resource 아님!
+import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import javax.sql.DataSource;
 
+/**
+ * 
+ */
 @Configuration
 @MapperScan("com.example.dashboard.mapper") // 인터페이스를 빈으로 등록해주는 핵심 설정
 public class MybatisConfig {
@@ -20,13 +23,10 @@ public class MybatisConfig {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(dataSource);
 
-        // 1. Mapper XML 위치 설정
+        // Mapper XML 위치 설정
         Resource[] mapperLocations = new PathMatchingResourcePatternResolver()
                 .getResources("classpath:mapper/*.xml");
-        sqlSessionFactoryBean.setMapperLocations(mapperLocations); // 이 줄이 반드시 있어야 합니다!
-
-        // 2. (선택사항) 만약 mybatis-config.xml도 쓰고 싶다면 추가
-        // sqlSessionFactoryBean.setConfigLocation(new ClassPathResource("mybatis-config.xml"));
+        sqlSessionFactoryBean.setMapperLocations(mapperLocations);
 
         return sqlSessionFactoryBean.getObject();
     }
