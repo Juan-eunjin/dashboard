@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { fetchProjectList } from '../api/handleSearchApi';
 import { useForm } from '../hooks/useForm';
 import { MAIN_SEARCH_LABELS } from '../constants/labels';
 import '../styles/SearchFilter.css';
-import { ERROR_MESSAGES } from '../constants/messages';
 import { type SearchParams } from '../api/handleSummaryApi';
 import { DETAIL_DEFAULT_VALUES } from '../constants/defaultValue';
+import { DatePicker } from './DatePicker';
+import { useLoading } from '../hooks/useLoading';
+import { ProjectSelect } from './projectSelect';
 
 interface SearchFilterProps {
   onSearch: (params: any) => Promise<void>;
@@ -18,35 +18,14 @@ export const SearchFilter: React.FC<SearchFilterProps> = ({ onSearch, initialPar
     labels: initialParams.labels || DETAIL_DEFAULT_VALUES.PROJECT
   });
 
-  const [projectList, setProjectList] = useState<string[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const { isLoading, withLoading } = useLoading();
 
-
-  const today = new Date().toISOString().split('T')[0];
   const minEndDate = params.startDate;
 
-  useEffect(() => {
-    const loadSelectOptions = async () => {
-      try {
-        const data = await fetchProjectList();
-        if (data && Array.isArray(data)) {
-          setProjectList(data);
-        }
-      } catch (error) {
-        console.error(ERROR_MESSAGES.PROJECT_LOAD_FAIL, error);
-      }
-    };
-
-    loadSelectOptions();
-  }, []);
-
   const handleSearchClick = async () => {
-    setIsLoading(true);
-    try {
+    await withLoading(async () => {
       await onSearch(params);
-    } finally {
-      setIsLoading(false);
-    }
+    });
   };
 
   return (
@@ -54,35 +33,26 @@ export const SearchFilter: React.FC<SearchFilterProps> = ({ onSearch, initialPar
       <div className="filter-wrapper">
         <div className="filter-group">
           <label>{MAIN_SEARCH_LABELS.PROJECT}</label>
-          <select
-            name="labels"
-            value={params.labels}
-            onChange={handleChange}
-            disabled={isLoading}
-          >
-            {projectList.map((proj) => (
-              <option key={proj} value={proj}>{proj}</option>
-            ))}
-          </select>
+          <ProjectSelect
+            filters={params}
+            handleChange={handleChange}
+            isLoading={isLoading}
+          />
         </div>
 
         <div className="filter-group">
           <label>{MAIN_SEARCH_LABELS.TERM}</label>
-          <input
-            type="date"
+          <DatePicker
             name="startDate"
             value={params.startDate}
             onChange={handleChange}
-            max={today}
             disabled={isLoading}
           />
           <span>~</span>
-          <input
-            type="date"
+          <DatePicker
             name="endDate"
             value={params.endDate}
             min={minEndDate}
-            max={today}
             onChange={handleChange}
             disabled={isLoading}
           />

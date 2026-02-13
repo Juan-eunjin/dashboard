@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { type SearchParams } from '../api/handleSummaryApi';
+import { useLoading } from './useLoading';
 
 export const useDashboardState = () => {
     const getTodayStr = () => new Date().toISOString().split('T')[0];
@@ -19,7 +20,7 @@ export const useDashboardState = () => {
     });
 
     const [ganttData, setGanttData] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
+    const { isLoading, withLoading, setIsLoading } = useLoading();
 
     const setDashboardData = (params: SearchParams, summary: any, daily: any) => {
         setSearchParams(params);
@@ -41,6 +42,7 @@ export const useDashboardState = () => {
         chartData,
         ganttData,
         isLoading,
+        withLoading, // Return withLoading
         setIsLoading,
         setDashboardData
     };

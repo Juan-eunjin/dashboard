@@ -3,12 +3,12 @@
     display: flex;
     align-items: center;
     /* 버튼을 오른쪽 끝으로 보내기 위해 flex-start 사용 */
-    justify-content: flex-start; 
+    justify-content: flex-start;
     padding: 18px 30px;
     background-color: #ffffff;
     border-radius: 12px;
     /* 테두리를 찐한 회색으로 강조 */
-    border: 1.5px solid #cbd5e0; 
+    border: 1.5px solid #cbd5e0;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
     margin-bottom: 25px;
     font-family: 'Pretendard', sans-serif;
@@ -19,7 +19,7 @@
     display: flex;
     align-items: center;
     /* 프로젝트와 기간 사이 간격 50px로 확대 */
-    gap: 50px; 
+    gap: 50px;
 }
 
 .filter-group {
@@ -37,7 +37,7 @@
 }
 
 /* 입력창 스타일 */
-.filter-group select, 
+.filter-group select,
 .filter-group input {
     padding: 10px 14px;
     border: 1.5px solid #cbd5e0;
@@ -49,7 +49,7 @@
 }
 
 /* 포커스 효과 */
-.filter-group select:focus, 
+.filter-group select:focus,
 .filter-group input:focus {
     border-color: #0052cc;
     box-shadow: 0 0 0 3px rgba(0, 82, 204, 0.1);
@@ -58,8 +58,8 @@
 /* 조회 버튼 - 오른쪽 끝 강제 이동 */
 .search-button {
     /* 이 속성이 버튼을 오른쪽 끝으로 밀어냅니다 */
-    margin-left: auto; 
-    
+    margin-left: auto;
+
     padding: 10px 32px;
     background-color: #0052cc;
     color: #ffffff;

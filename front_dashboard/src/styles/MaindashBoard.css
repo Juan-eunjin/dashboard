@@ -69,13 +69,6 @@
     border-left: 1px solid #edf2f7;
 }
 
-/* 상태별 포인트 컬러 (기존 색상 유지 및 최적화) */
-.status-total { border-top: 3px solid #718096; }
-.status-open { border-top: 3px solid #4a5568; }
-.status-progress { border-top: 3px solid #00C49F; color: #00C49F !important; }
-.status-overdue { border-top: 3px solid #FF0000; color: #FF0000 !important; }
-.status-done { border-top: 3px solid #0052cc; }
-
 /* 수치(숫자) 부분만 초강조! */
 .summary-text li strong {
     font-size: 28px;       /* 숫자를 20px에서 28px로 대폭 확대 */
